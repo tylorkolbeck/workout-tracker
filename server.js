@@ -2,8 +2,6 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
-// TODO: import mongoose
-
 mongoose.set("debug", true);
 
 const apiRoutes = require("./routes/api");
@@ -20,7 +18,13 @@ app.use(express.json());
 
 app.use(express.static("public", { extensions: "html" }));
 
-// TODO: create mongodb connection with mongoose
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .then((res) => console.log(res.models));
 
 app.use(apiRoutes);
 
